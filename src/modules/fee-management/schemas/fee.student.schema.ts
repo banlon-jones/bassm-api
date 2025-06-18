@@ -16,10 +16,6 @@ export const FeeStudentSchema = new mongoose.Schema({
     ref: 'AcademyYear',
     required: true,
   },
-  amountPaid: {
-    type: Number,
-    default: 0,
-  },
   dueDate: {
     type: Date,
   },

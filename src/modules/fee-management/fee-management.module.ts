@@ -5,13 +5,15 @@ import { FeeSchema } from './schemas/fee.schema';
 import { MongooseModule } from '@nestjs/mongoose';
 import { FeeStudentSchema } from './schemas/fee.student.schema';
 import { FeePaymentSchema } from './schemas/fee.payment.schema';
+import { ClassStudentSchema } from '../class/schemas/class.student.schema';
 
 @Module({
   imports: [
     MongooseModule.forFeature([
       { name: 'Fee', schema: FeeSchema },
       { name: 'FeeStudent', schema: FeeStudentSchema },
-      { name: 'FeePayment', schema: FeePaymentSchema }
+      { name: 'FeePayment', schema: FeePaymentSchema },
+      { name: 'ClassStudent', schema: ClassStudentSchema },
     ])
   ],
   controllers: [FeeManagementController],
