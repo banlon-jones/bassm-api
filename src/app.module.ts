@@ -10,6 +10,8 @@ import { AcademyYearModule } from './modules/academy-year/academy-year.module';
 import { FeeManagementModule } from './modules/fee-management/fee-management.module';
 import { LessionsModule } from './modules/lessons/lessions.module';
 import { AttendanceModule } from './modules/attendance/attendance.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './commons/guards/roles/roles.guard';
 dotenv.config();
 
 @Module({
@@ -24,7 +26,13 @@ dotenv.config();
     AttendanceModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
+    },
+
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: any) {

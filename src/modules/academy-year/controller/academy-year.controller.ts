@@ -1,12 +1,14 @@
 import { Body, Controller, Get, Param, Post, Put, Res } from '@nestjs/common';
 import { AcademyYearService } from '../services/academy-year.service';
 import { CreateAcademyYearDTO } from '../dto/createAcademyYearDTO';
+import { Roles } from '../../../commons/guards/roles/roles.decorator';
 
 @Controller('api/private/academy-year')
 export class AcademyYearController {
   constructor(private academyYearService: AcademyYearService) {}
 
   @Post()
+  @Roles(['ACADEMY-YEAR-MANAGEMENT'])
   async createAcademyYear(@Res() res, @Body() createAcademyYearDTO: CreateAcademyYearDTO) {
     try {
       const newYear = await this.academyYearService.createAcademyYear(createAcademyYearDTO);
@@ -17,6 +19,7 @@ export class AcademyYearController {
   }
 
   @Get()
+  @Roles(['ACADEMY-YEAR-MANAGEMENT'])
   async getAllAcademyYears(@Res() res) {
     try {
       const years = await this.academyYearService.getAllAcademyYears();
@@ -27,6 +30,7 @@ export class AcademyYearController {
   }
 
   @Get(':id')
+  @Roles(['ACADEMY-YEAR-MANAGEMENT'])
   async getAcademyYearById(@Res() res, @Param('id') id: string) {
     try {
       const year = await this.academyYearService.getAcademyYearById(id);
@@ -40,6 +44,7 @@ export class AcademyYearController {
   }
 
   @Put(':id')
+  @Roles(['ACADEMY-YEAR-MANAGEMENT'])
   async updateAcademyYear(@Res() res, @Param('id') id: string, @Body() updateData: Partial<CreateAcademyYearDTO>) {
     try {
       const updated = await this.academyYearService.updateAcademyYear(id, updateData);
@@ -53,6 +58,7 @@ export class AcademyYearController {
   }
 
   @Put(':id/set-active')
+  @Roles(['ACADEMY-YEAR-MANAGEMENT'])
   async setAcademyYearActive(@Res() res, @Param('id') id: string) {
     try {
       const updated = await this.academyYearService.setAcademyYearActive(id);
@@ -77,5 +83,4 @@ export class AcademyYearController {
       return res.status(500).json({ message: 'Error retrieving active academy year', error: error.message });
     }
   }
-
 }

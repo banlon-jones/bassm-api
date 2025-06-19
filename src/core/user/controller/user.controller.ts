@@ -3,6 +3,7 @@ import { UserService } from '../service/user.service';
 import { CreateUserDTO } from '../dto/createUserDTO';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { QueryDTO } from '../../../commons/types/queryDTO';
+import { Roles } from '../../../commons/guards/roles/roles.decorator';
 
 @ApiTags("User")
 @Controller('api/private/user')
@@ -11,6 +12,7 @@ export class UserController {
 
   @ApiBearerAuth()
   @Post('/add-user')
+  @Roles(["USER-MANAGEMENT"])
   async addStaff(@Res() res, @Body() createUserDTO: CreateUserDTO) {
     try {
       const newUser = await this.userService.createStaff(createUserDTO);
@@ -27,6 +29,7 @@ export class UserController {
   }
 
   @Get('/get-all-staff')
+  @Roles(["USER-MANAGEMENT"])
   async getAllStaff(@Res() res, @Query() query: QueryDTO) {
     try {
       const staff = await this.userService.getAllStaff(query);
@@ -43,6 +46,7 @@ export class UserController {
   }
 
   @Get('/:id')
+  @Roles(["USER-MANAGEMENT"])
   async getUserById(@Res() res, @Param('id') id: string) {
     try {
       const user = await this.userService.getUserById(id);
@@ -64,6 +68,7 @@ export class UserController {
   }
 
   @Put("/:id")
+  @Roles(["USER-MANAGEMENT"])
   async updateUser(@Res() res, @Param('id') id: string, @Body() updateUserDTO: Partial<CreateUserDTO>) {
     try {
       const updatedUser = await this.userService.updateUser(id, updateUserDTO);
@@ -84,6 +89,7 @@ export class UserController {
   }
 
   @Delete("/:id")
+  @Roles(["USER-MANAGEMENT"])
   async disableUser(@Res() res, @Param('id') id: string) {
     try {
       const result = await this.userService.disableUser(id);
